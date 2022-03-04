@@ -1,14 +1,18 @@
+//? Imports
 import md5 from "md5";
 import { customAlphabet } from "nanoid";
 import config from "../config";
 import { userControllerI } from "../interface/user.interface";
 import userSchema from "../schemas/user.schema";
 
+//? user controller object
 const userController: userControllerI = {
-    getOne(req, res) {
+    //? GET - get one user controller
+    getOneUser: (req, res) => {
         res.status(200).json({ message: "OK" });
     },
-    async register(req, res) {
+    //? POST - register new user controller
+    registerUser: async (req, res) => {
         if (!req.body.login || !req.body.password || !req.body.email) {
             return res
                 .status(400)
@@ -32,4 +36,5 @@ const userController: userControllerI = {
     },
 };
 
+//? Export
 export default userController;

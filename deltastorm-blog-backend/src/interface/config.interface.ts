@@ -1,11 +1,15 @@
-interface dataBaseI {
+//? Database type
+type dataBaseI = {
     localhost: string;
-}
+};
 
-interface securityI {
+//? Security type
+type securityI = {
     passwordSalt: string;
     idSalt: string;
-}
+};
+
+//? Config interface
 export interface ConfigI {
     PORT: number;
     dataBase: dataBaseI;

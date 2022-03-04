@@ -1,5 +1,7 @@
+//? Imports
 import mongoose from "mongoose";
 
+//? User schema to database
 const userSchema = new mongoose.Schema({
     firstname: { type: String, default: "" },
     secondname: { type: String, default: "" },
@@ -12,4 +14,5 @@ const userSchema = new mongoose.Schema({
     verify: { type: Boolean, default: false },
 });
 
+//? Export
 export default mongoose.model("User", userSchema);

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
+//? User controller interface
 export interface userControllerI {
-    getOne: (req: Request, res: Response) => void;
-    register: (req: Request, res: Response) => void;
+    getOneUser: (req: Request, res: Response) => void;
+    registerUser: (req: Request, res: Response) => void;
 }
