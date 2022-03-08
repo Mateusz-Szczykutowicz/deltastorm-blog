@@ -7,6 +7,7 @@ type dataBaseI = {
 type securityI = {
     passwordSalt: string;
     idSalt: string;
+    tokenSalt: string;
 };
 
 //? Config interface
