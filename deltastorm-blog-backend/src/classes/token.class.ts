@@ -1,6 +1,7 @@
 import md5 from "md5";
 import config from "../config";
-import { ID, token, TokenClassI } from "../interface/auth.interface";
+import { TokenClassI } from "../interface/auth.interface";
+import { ID, token } from "../interface/general.interface";
 
 export class Token implements TokenClassI {
     private token: token;

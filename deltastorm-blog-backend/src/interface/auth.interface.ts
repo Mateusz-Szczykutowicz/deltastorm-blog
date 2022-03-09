@@ -1,7 +1,4 @@
-import { NextFunction, Request, Response } from "express";
-
-export type token = string;
-export type ID = string;
+import { expressFunction, ID, token } from "./general.interface";
 
 export interface TokenClassI {
     getToken: () => token;
@@ -10,6 +7,6 @@ export interface TokenClassI {
 
 export interface authI {
     tokens: Map<token, ID>;
-    checkToken: (req: Request, res: Response, next: NextFunction) => void;
-    setToken: (req: Request, res: Response, next: NextFunction) => void;
+    checkToken: expressFunction;
+    setToken: expressFunction;
 }

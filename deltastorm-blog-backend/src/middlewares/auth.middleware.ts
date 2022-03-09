@@ -1,3 +1,4 @@
+import { NextFunction } from "express";
 import md5 from "md5";
 import { Token } from "../classes/token.class";
 import config from "../config";
@@ -18,7 +19,7 @@ const auth: authI = {
             });
         }
         req.body.security = {};
-        req.body.security.securisecurityID = securityID;
+        req.body.security.id = securityID;
         return next();
     },
     setToken: async (req, res, next) => {
