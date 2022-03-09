@@ -1,5 +1,5 @@
 //? Imports
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import userRouter from "./routes/user.router";
@@ -21,7 +21,14 @@ app.use(helmet());
 app.use(morgan("dev"));
 
 //? Routers
+//* User route
 app.use("/users", userRouter);
+
+//* Error route
+app.use((req: Request, res: Response) => {
+    console.log("req.path :>> ", req.path);
+    res.status(404).json({ message: "Enpoint does not exist" });
+});
 
 //? Export
 export default app;
