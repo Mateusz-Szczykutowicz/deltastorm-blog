@@ -31,7 +31,6 @@ const verify: verifyI = {
     },
     isVerify: async (req, res, next) => {
         const securityID = req.body.security.id;
-        console.log("securityID :>> ", securityID);
         const user = await userSchema.findOne({ securityID }, "verify");
         if (!user) {
             return res.status(404).json({ message: "User does not exist" });

@@ -9,4 +9,5 @@ export interface authI {
     tokens: Map<token, ID>;
     checkToken: expressFunction;
     setToken: expressFunction;
+    deleteToken: (id: ID) => void;
 }

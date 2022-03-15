@@ -1,4 +1,3 @@
-import { NextFunction, Request, Response } from "express";
 import { code, email, expressFunction } from "./general.interface";
 
 export interface CodeClassI {

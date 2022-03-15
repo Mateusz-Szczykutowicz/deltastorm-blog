@@ -1,6 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 
-export type returnJSON = { message: string; token?: unknown; user?: unknown };
+export type returnJSON = {
+    message: string;
+    token?: unknown;
+    data?: unknown;
+    user?: unknown;
+};
 export type token = string;
 export type ID = string;
 export type code = string;

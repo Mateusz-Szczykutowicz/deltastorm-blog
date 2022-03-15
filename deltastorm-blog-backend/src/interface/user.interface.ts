@@ -7,6 +7,11 @@ export interface userControllerI {
     registerUser: expressFunction;
     sendCode: expressFunction;
     verifyUser: expressFunction;
+    changePassword: expressFunction;
+    changeEmail: expressFunction;
+    deleteAccount: expressFunction;
+    addFirstAndLastName: expressFunction;
+    addAvatar: expressFunction;
 }
 
 export interface userSchemaI {
@@ -18,4 +23,5 @@ export interface userSchemaI {
     id: string;
     securityID: string;
     verify: boolean;
+    avatar: string;
 }

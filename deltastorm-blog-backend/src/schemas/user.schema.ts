@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema<userSchemaI>({
     id: { type: String, required: true },
     securityID: { type: String, required: true },
     verify: { type: Boolean, default: false },
+    avatar: { type: String, default: "" },
 });
 
 //? Export

@@ -1,4 +1,3 @@
-import { NextFunction } from "express";
 import md5 from "md5";
 import { Token } from "../classes/token.class";
 import config from "../config";
@@ -14,7 +13,7 @@ const auth: authI = {
         }
         const securityID = auth.tokens.get(token.toString());
         if (!securityID) {
-            return res.status(404).json({
+            return res.status(401).json({
                 message: "You have been logged out. Please log in again",
             });
         }
@@ -42,13 +41,19 @@ const auth: authI = {
         if (!user) {
             return res.status(404).json({ message: "Wrong login or password" });
         }
-        const securityID = user.get("securityID");
+        const securityID: string = user.get("securityID");
         const token = new Token();
         token.setToken(securityID);
         auth.tokens.set(token.getToken(), securityID);
         req.body.security = {};
         req.body.security.token = token.getToken();
+        setTimeout(() => {
+            auth.tokens.delete(token.getToken());
+        }, 1000 * 60 * 15);
         return next();
+    },
+    deleteToken: (id) => {
+        auth.tokens.delete(id);
     },
 };
 
