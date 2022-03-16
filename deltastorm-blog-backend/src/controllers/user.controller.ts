@@ -22,8 +22,7 @@ const userController: userControllerI = {
 
     //* POST - Login user
     loginUser: (req, res) => {
-        console.log("req.headers.cookie :>> ", req.headers.cookie);
-        const expireTime = 15; // Time in minutes
+        const expireTime = config.security.expireTime; // Time in minutes
         const token: string = req.body.security.token;
         const cookieToken = cookie.serialize("token", token, {
             maxAge: 60 * expireTime,

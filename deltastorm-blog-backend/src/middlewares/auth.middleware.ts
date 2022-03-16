@@ -49,7 +49,7 @@ const auth: authI = {
         req.body.security.token = token.getToken();
         setTimeout(() => {
             auth.tokens.delete(token.getToken());
-        }, 1000 * 60 * 15);
+        }, 1000 * 60 * config.security.expireTime);
         return next();
     },
     deleteToken: (id) => {

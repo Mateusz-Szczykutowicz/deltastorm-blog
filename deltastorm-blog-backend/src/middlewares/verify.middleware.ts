@@ -1,19 +1,30 @@
 import Code from "../classes/code.class";
+import Mail from "../classes/mail.class";
 import { code, email } from "../interface/general.interface";
 import { verifyI } from "../interface/verify.interface";
 import userSchema from "../schemas/user.schema";
 
 const verify: verifyI = {
     codes: new Map<code, email>(),
-    setCode: (req, res, next) => {
+    setCode: async (req, res, next) => {
         if (!req.body.email) {
             return res.status(400).json({ message: "Email field is empty" });
         }
         const { email } = req.body;
+        const user = await userSchema.findOne({ email }, "email");
+        if (!user) {
+            return res.status(404).json({ message: "User does not exist" });
+        }
         const code = new Code();
         verify.codes.set(code.getCode(), email);
         req.body.security = {};
         req.body.security.code = code.getCode();
+        const mail = new Mail(
+            email,
+            "Verify your account",
+            `<h1>Hello - your code: ${code.getCode()}</h1>`
+        );
+        mail.sendMail();
         next();
     },
     checkCode: (req, res, next) => {
