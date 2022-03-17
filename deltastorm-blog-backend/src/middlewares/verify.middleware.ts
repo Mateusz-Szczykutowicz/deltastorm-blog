@@ -59,6 +59,32 @@ const verify: verifyI = {
         }
         return next();
     },
+
+    //* Check account, that is blocked
+    isBlocked: async (req, res, next) => {
+        const securityID = req.body.security.id;
+        const user = await userSchema.findOne({ securityID }, "blocked");
+        if (!user) {
+            return res.status(404).json({ message: "User does not exist" });
+        }
+        if (user.get("blocked")) {
+            return res.status(403).json({ message: "Account is blocked" });
+        }
+        return next();
+    },
+
+    //* Check account, that is admin
+    isAdmin: async (req, res, next) => {
+        const securityID = req.body.security.id;
+        const user = await userSchema.findOne({ securityID }, "admin");
+        if (!user) {
+            return res.status(404).json({ message: "User does not exist" });
+        }
+        if (user.get("admin")) {
+            return next();
+        }
+        return res.status(403).json({ message: "Prohibited content" });
+    },
 };
 
 export default verify;

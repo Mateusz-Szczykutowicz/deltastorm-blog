@@ -5,6 +5,7 @@ import morgan from "morgan";
 import userRouter from "./routes/user.router";
 import helmet from "helmet";
 import path from "path";
+import adminRouter from "./routes/admin.router";
 
 //? Express app
 const app = express();
@@ -28,13 +29,12 @@ app.use(
 app.use(morgan("dev"));
 
 //? Routers
-//* User route
 app.use("/users", userRouter);
+app.use("/admin", adminRouter);
 
 //* Error route
 app.use((req: Request, res: Response) => {
-    console.log("req.path :>> ", req.path);
-
+    console.log("req.path :>> ", req.path); //* Logs
     res.status(404).json({ message: "Enpoint does not exist" });
 });
 

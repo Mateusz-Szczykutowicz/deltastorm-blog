@@ -9,4 +9,6 @@ export interface verifyI {
     setCode: expressFunction;
     checkCode: expressFunction;
     isVerify: expressFunction;
+    isBlocked: expressFunction;
+    isAdmin: expressFunction;
 }

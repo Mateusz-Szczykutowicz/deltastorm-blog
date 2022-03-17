@@ -14,6 +14,7 @@ userRouter.get(
     "/",
     auth.checkToken,
     verify.isVerify,
+    verify.isBlocked,
     userController.getOneUser
 );
 //* POST - Register new user

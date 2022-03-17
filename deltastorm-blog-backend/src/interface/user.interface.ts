@@ -16,7 +16,6 @@ export interface userControllerI {
 
 export interface userSchemaI {
     firstname: string;
-    secondname: string;
     lastname: string;
     password: string;
     email: string;
@@ -24,4 +23,6 @@ export interface userSchemaI {
     securityID: string;
     verify: boolean;
     avatar: string;
+    blocked: boolean;
+    admin: boolean;
 }
