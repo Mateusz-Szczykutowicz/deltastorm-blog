@@ -5,7 +5,10 @@ import { authI } from "../interface/auth.interface";
 import userSchema from "../schemas/user.schema";
 
 const auth: authI = {
-    tokens: new Map(),
+    //* MAP - all tokens
+    tokens: new Map<string, string>(),
+
+    //* Check token, that exist
     checkToken: async (req, res, next) => {
         const token = req.headers.token;
         if (!token) {
@@ -21,6 +24,8 @@ const auth: authI = {
         req.body.security.id = securityID;
         return next();
     },
+
+    //* Create new token and add to tokens map
     setToken: async (req, res, next) => {
         if (!req.body.email || !req.body.password) {
             return res
@@ -52,6 +57,8 @@ const auth: authI = {
         }, 1000 * 60 * config.security.expireTime);
         return next();
     },
+
+    //* Delete token
     deleteToken: (id) => {
         auth.tokens.delete(id);
     },

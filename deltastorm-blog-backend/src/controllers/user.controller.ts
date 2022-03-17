@@ -37,12 +37,17 @@ const userController: userControllerI = {
 
     //* POST - register new user controller
     registerUser: async (req, res) => {
-        if (!req.body.password || !req.body.email) {
+        if (
+            !req.body.password ||
+            !req.body.email ||
+            !req.body.firstname ||
+            !req.body.lastname
+        ) {
             return res
                 .status(400)
                 .json({ message: "Form fields are not valid" });
         }
-        const { password, email } = req.body;
+        const { password, email, firstname, lastname } = req.body;
         const user = await userSchema.findOne({ email });
         if (user) {
             return res.status(406).json({ message: "Email already used!" });
@@ -60,14 +65,20 @@ const userController: userControllerI = {
             "securityID",
             md5(`#${id}!${email}+${config.security.idSalt}`)
         );
+        newUser.set("firstname", firstname);
+        newUser.set("lastname", lastname);
         newUser.save();
         return res.status(201).json({ message: "User registered - success" });
     },
+
+    //* POST - send verify code
     sendCode: (req, res) => {
         const code: unknown = req.body.security.code;
         console.log("code :>> ", code);
         return res.status(200).json({ message: "Code sent" });
     },
+
+    //* PATCH - verify user account
     verifyUser: async (req, res) => {
         const email: unknown = req.body.security.email;
         const user = await userSchema.findOne({ email }, "verify");
@@ -83,6 +94,8 @@ const userController: userControllerI = {
         user.save();
         return res.status(200).json({ message: "Verify successed" });
     },
+
+    //* PATCH - change password
     changePassword: async (req, res) => {
         if (!req.body.password) {
             return res.status(400).json({ message: "Password field is empty" });
@@ -101,6 +114,8 @@ const userController: userControllerI = {
         user.save();
         return res.status(200).json({ message: "Password success changed" });
     },
+
+    //* PATCH - change email
     changeEmail: async (req, res) => {
         const securityID = req.body.security.id;
         const { email } = req.body;
@@ -118,6 +133,8 @@ const userController: userControllerI = {
         user.save();
         return res.status(200).json({ message: "Email successfully changed" });
     },
+
+    //* DELETE - delete account
     deleteAccount: async (req, res) => {
         const securityID = req.body.security.id;
         const user = await userSchema.findOne({ securityID }, "id");
@@ -129,26 +146,29 @@ const userController: userControllerI = {
             .status(200)
             .json({ message: "Account successfully deleted" });
     },
-    addFirstAndLastName: async (req, res) => {
+
+    //* PATCH - change firstname and lastname
+    changeFirstAndLastName: async (req, res) => {
         if (!req.body.firstName || !req.body.lastName) {
             return res
                 .status(400)
                 .json({ message: "First name or last name field is empty" });
         }
         const securityID = req.body.security.id;
-        const { firstName, lastName, secondName } = req.body;
+        const { firstName, lastName } = req.body;
         const user = await userSchema.findOne({ securityID }, "id");
         if (!user) {
             return res.status(404).json({ message: "User does not exist" });
         }
         user.set("firstname", firstName);
         user.set("lastname", lastName);
-        user.set("secondname", secondName || "");
         user.save();
         return res.status(200).json({
             message: "First name, second name and last name successfully added",
         });
     },
+
+    //* POST - add or change avatar
     addAvatar: async (req, res) => {
         const securityID = req.body.security.id;
         const avatar = req.file;

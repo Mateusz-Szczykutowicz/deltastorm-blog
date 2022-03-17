@@ -5,6 +5,7 @@ import { verifyI } from "../interface/verify.interface";
 import userSchema from "../schemas/user.schema";
 
 const verify: verifyI = {
+    //* MAP - all codes
     codes: new Map<code, email>(),
     setCode: async (req, res, next) => {
         if (!req.body.email) {
@@ -25,8 +26,13 @@ const verify: verifyI = {
             `<h1>Hello - your code: ${code.getCode()}</h1>`
         );
         mail.sendMail();
-        next();
+        setTimeout(() => {
+            verify.codes.delete(code.getCode());
+        }, 1000 * 60 * 5); //? 5 minutes expire code
+        return next();
     },
+
+    //* Check code to verify account
     checkCode: (req, res, next) => {
         if (!req.body.code) {
             return res.status(400).json({ message: "Code field is empty" });
@@ -38,8 +44,10 @@ const verify: verifyI = {
         }
         req.body.security = {};
         req.body.security.email = email;
-        next();
+        return next();
     },
+
+    //* Check account, that is verified
     isVerify: async (req, res, next) => {
         const securityID = req.body.security.id;
         const user = await userSchema.findOne({ securityID }, "verify");
@@ -49,7 +57,7 @@ const verify: verifyI = {
         if (!user.get("verify")) {
             return res.status(403).json({ message: "Verify account" });
         }
-        next();
+        return next();
     },
 };
 

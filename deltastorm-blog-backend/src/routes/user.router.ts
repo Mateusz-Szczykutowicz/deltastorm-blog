@@ -9,7 +9,7 @@ import { getAvatar } from "../scripts/files.script";
 const userRouter: Router = express.Router();
 
 //? Routes
-//* GET - Get one user info
+//* GET - Get user info
 userRouter.get(
     "/",
     auth.checkToken,
@@ -58,7 +58,7 @@ userRouter.patch(
     "/name",
     auth.checkToken,
     verify.isVerify,
-    userController.addFirstAndLastName
+    userController.changeFirstAndLastName
 );
 
 //* DELETE - Delete user account

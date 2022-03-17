@@ -10,7 +10,7 @@ export interface userControllerI {
     changePassword: expressFunction;
     changeEmail: expressFunction;
     deleteAccount: expressFunction;
-    addFirstAndLastName: expressFunction;
+    changeFirstAndLastName: expressFunction;
     addAvatar: expressFunction;
 }
 
